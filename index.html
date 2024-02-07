@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoffeeOps Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1>Welcome to CoffeeOps Manager</h1>
+        <form id="coffeeForm">
+
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" class="form-control" id="customerName" name="customerName" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email (optional):</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea class="form-control" id="address" name="address"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="customerPhoto">Customer Photo:</label>
+                <input type="file" class="form-control-file" id="customerPhoto" name="customerPhoto">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
