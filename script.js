@@ -1,7 +1,7 @@
 function submitForm() {
     var formData = new FormData(document.getElementById("coffeeForm"));
 
-    fetch('auth/saveData.php', {
+    fetch('saveData.php', {
         method: 'POST',
         body: formData
     })
