@@ -6,7 +6,14 @@ $password = "";
 $database = "coffeeops_manage";
 
 $conn = new mysqli($servername, $username, $password, $database);
+<?php
+session_start();
 
+// Check if the user is not logged in, redirect to login page
+if (!isset($_SESSION['name'])) {
+    echo "Error: Unauthorized access. Please log in.";
+    exit();
+}
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+// Check if the user is already logged in, redirect to home page
+if (isset($_SESSION['name'])) {
+    header('location: index.php');
+    exit();
+}
+
+// The rest of your login page logic here
+?>
+
 <!doctype html>
 <html lang="en">
 

@@ -3,6 +3,15 @@ session_start();
 include_once('connection.php');
 include_once('auth_functions.php');
 
+session_start();
+
+// Check if the user is already logged in, redirect to home page
+if (isset($_SESSION['name'])) {
+    header('location: ../index.php');
+    exit();
+}
+
+
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
