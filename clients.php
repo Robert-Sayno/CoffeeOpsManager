@@ -43,7 +43,7 @@ $conn->close();
 <body>
 
     <nav>
-        
+
         <a href="index.php">Home</a>
         <a href="#">Products</a>
         <a href="#">Orders</a>
