@@ -3,7 +3,7 @@ session_start();
 
 // Check if the user is not logged in, redirect to login page
 if (!isset($_SESSION['name'])) {
-    header('location: login.php');
+    header('location: auth/login.php');
     exit();
 }
 
@@ -44,7 +44,7 @@ $conn->close();
 
     <nav>
         
-        <a href="#">Home</a>
+        <a href="index.php">Home</a>
         <a href="#">Products</a>
         <a href="#">Orders</a>
         <a href="#">Reports</a>
@@ -97,7 +97,7 @@ $conn->close();
                             <td>
                                 <a href="edit_client.php?id=<?php echo $row['id']; ?>">Edit</a> |
                                 <a href="delete_client.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure?')">Delete</a> |
-                                <a href="view_details.php?id=<?php echo $row['id']; ?>">View Details</a>
+                                <a href="manage_client.php?id=<?php echo $row['id']; ?>">Manage</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>

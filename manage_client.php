@@ -27,8 +27,9 @@ $resultAllClients = $conn->query($sqlAllClients);
 $sql = "SELECT * FROM coffee_data WHERE id = $client_id";
 $result = $conn->query($sql);
 
-// Update client details in the client_details table
+// Insert client details into the client_details table
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $client_id = $_POST['client_id'];
     $coffeeBrought = $_POST['coffeeBrought'];
     $output = $_POST['output'];
     $residue = $_POST['residue'];
@@ -36,28 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $totalAmountPaid = $_POST['totalAmountPaid'];
     $date = date("Y-m-d");
 
-    // Assuming you have a unique identifier for each entry in the client_details table
-    $updateSql = "UPDATE client_details SET 
-                  date = '$date', 
-                  coffee_brought = $coffeeBrought, 
-                  output = $output, 
-                  residue = $residue, 
-                  unit_price = $unitPrice, 
-                  total_amount_paid = $totalAmountPaid 
-                  WHERE client_id = $client_id";
+    $insertSql = "INSERT INTO client_details (client_id, date, coffee_brought, output, residue, unit_price, total_amount_paid) 
+                  VALUES ($client_id, '$date', $coffeeBrought, $output, $residue, $unitPrice, $totalAmountPaid)";
 
-    if ($conn->query($updateSql) === TRUE) {
-        echo "Details updated successfully";
+    if ($conn->query($insertSql) === TRUE) {
+        echo "Details added successfully";
     } else {
-        echo "Error updating details: " . $conn->error;
+        echo "Error adding details: " . $conn->error;
     }
 }
 
 $conn->close();
 ?>
-
-<!DOCTYPE html>
-<!-- Rest of your HTML code remains unchanged -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,6 +113,13 @@ $conn->close();
     <div class="container mt-5">
         <h2>Clients Details</h2>
 
+        <!-- Display all client names -->
+        <ul>
+            <?php while ($rowAllClients = $resultAllClients->fetch_assoc()): ?>
+                <li><?php echo $rowAllClients['name']; ?></li>
+            <?php endwhile; ?>
+        </ul>
+
         <?php if ($resultAllClients && $resultAllClients->num_rows > 0): ?>
             <table>
                 <thead>
@@ -155,11 +153,14 @@ $conn->close();
                 </tbody>
             </table>
 
-            <?php if ($result && $result->num_rows > 0): ?>
+           <!-- ... (previous code) ... -->
+
+           <?php if ($result && $result->num_rows > 0): ?>
                 <?php $row = $result->fetch_assoc(); ?>
                 <div class="add-details-form">
                     <h3>Add Details</h3>
-                    <form action="clients.php?id=<?php echo $row['id']; ?>" method="post">
+                    <form action="clients.php" method="post">
+                        <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
                         <div class="form-group">
                             <label for="coffeeBrought">Coffee Brought (kg):</label>
                             <input type="number" name="coffeeBrought" id="coffeeBrought" required>
@@ -182,10 +183,12 @@ $conn->close();
                         </div>
                         <!-- Add other input fields as needed -->
                         <button type="submit">Add Details</button>
-                    </form>
+                    </form> <!-- Add this closing tag -->
                 </div>
             <?php endif; ?>
-        <?php else: ?>
+
+        <!-- ... (remaining code) ... -->
+
             <p>No clients found.</p>
         <?php endif; ?>
 
@@ -193,5 +196,3 @@ $conn->close();
 
 </body>
 </html>
-
-                                
