@@ -84,7 +84,7 @@ $clientDetailsResult = $conn->query($clientDetailsSql);
         <a href="index.php">Home</a>
         <a href="clients.php">View clients</a>
         <a href="#">Orders</a>
-        <a href="#">Reports</a>
+        <a href="add_clients">add cleinte</a>
         <!-- Your navigation links here -->
     </nav>
 
@@ -120,17 +120,56 @@ $clientDetailsResult = $conn->query($clientDetailsSql);
 
             <div class="add-details-form">
                 <h3>Add Details</h3>
-                <form action="process_form.php" method="post">
-                    <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
-                    <div class="form-group">
-                        <label for="coffeeBrought">Coffee Brought (kg):</label>
-                        <input type="number" name="coffeeBrought" id="coffeeBrought" required>
-                    </div>
-                    <!-- ... (rest of the form) ... -->
-                    <button type="submit">Add Details</button>
-                </form>
+                <form id="addDetailsForm" action="process_form.php" method="post">
+        <input type="hidden" name="client_id" value="<?php echo $row['id']; ?>">
+
+        <div class="form-group">
+            <label for="coffeeBrought">Coffee Brought (kg):</label>
+            <input type="number" name="coffeeBrought" id="coffeeBrought" required>
+        </div>
+
+        <div class="form-group">
+            <label for="output">Output (kg):</label>
+            <input type="number" name="output" id="output" required>
+        </div>
+
+        <div class="form-group">
+            <label for="residue">Residue (kg):</label>
+            <input type="number" name="residue" id="residue" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="unitPrice">Unit Price:</label>
+            <input type="number" name="unitPrice" id="unitPrice" required>
+        </div>
+
+        <div class="form-group">
+            <label for="totalAmountPaid">Total Amount Paid:</label>
+            <input type="number" name="totalAmountPaid" id="totalAmountPaid" readonly>
+        </div>
+
+        <!-- ... Add more fields as needed ... -->
+
+        <button type="button" onclick="calculateDetails()">Add Details</button>
+    </form>
             </div>
         <?php endif; ?>
+        <script>
+    function calculateDetails() {
+        var coffeeBrought = parseFloat(document.getElementById("coffeeBrought").value) || 0;
+        var output = parseFloat(document.getElementById("output").value) || 0;
+        var unitPrice = parseFloat(document.getElementById("unitPrice").value) || 0;
+
+        var residue = output - coffeeBrought;
+        var totalAmountPaid = coffeeBrought * unitPrice;
+
+        document.getElementById("residue").value = residue.toFixed(2);
+        document.getElementById("totalAmountPaid").value = totalAmountPaid.toFixed(2);
+
+        // Submit the form after calculations (optional)
+        document.getElementById("addDetailsForm").submit();
+    }
+</script>
 
         <p>No clients found.</p>
     </div>

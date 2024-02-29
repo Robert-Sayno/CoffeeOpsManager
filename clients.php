@@ -45,7 +45,7 @@ $conn->close();
     <nav>
 
         <a href="index.php">Home</a>
-        <a href="#">Products</a>
+        <a href="add_clients.php">add clients</a>
         <a href="#">Orders</a>
         <a href="#">Reports</a>
         <!-- Your navigation links here -->

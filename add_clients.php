@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 
 // Check if the user is not logged in, redirect to login page
@@ -80,11 +82,9 @@ if (!isset($_SESSION['name'])) {
             <a href="login.php" style="color: #ffffff; font-weight: bold;">Login</a>
         <?php endif; ?>
     </nav>
-
     <div class="container">
         <h1>Welcome to CoffeeOps Manager</h1>
-        <form id="coffeeForm">
-
+        <form id="coffeeForm" action="saveData.php" method="post">
             <!-- Your form fields go here -->
             <div class="form-group">
                 <label for="customerName">Customer Name:</label>
@@ -107,7 +107,7 @@ if (!isset($_SESSION['name'])) {
                 <input type="file" class="form-control-file" id="customerPhoto" name="customerPhoto">
             </div>
 
-            <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
 
         </form>
     </div>

@@ -1,12 +1,7 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-$database = "coffeeops_manage";
-
-$conn = new mysqli($servername, $username, $password, $database);
-<?php
 session_start();
 
 // Check if the user is not logged in, redirect to login page
@@ -14,6 +9,14 @@ if (!isset($_SESSION['name'])) {
     echo "Error: Unauthorized access. Please log in.";
     exit();
 }
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "coffeeops_manage";
+
+$conn = new mysqli($servername, $username, $password, $database);
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -45,12 +48,18 @@ if (isset($_FILES['customerPhoto']) && $_FILES['customerPhoto']['error'] == UPLO
 
 // Insert data into the database
 $sql = "INSERT INTO coffee_data (customer_name, phone_number, email, address, customer_photo) VALUES ('$customerName', '$phoneNumber', '$email', '$address', '$customerPhoto')";
-
 if ($conn->query($sql) === TRUE) {
-    echo "Data saved successfully";
+    // Data saved successfully
+    echo "Client added succesfully";
+    header('Location: clients.php'); // Redirect to a success page
+    exit(); // Make sure to exit after header redirect
+
 } else {
+    // Error in saving data
     echo "Error: " . $sql . "<br>" . $conn->error;
+    echo '<script>alert("Error saving data. Please try again.");</script>';
 }
+
 
 $conn->close();
 ?>

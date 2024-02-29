@@ -97,8 +97,8 @@ if (!isset($_SESSION['name'])) {
 
     <nav>
         <a href="index.php">Home</a>
-        <a href="clients.php">Add clients</a>
-        <a href="#">Orders</a>
+        <a href="add_clients.php">Add clients</a>
+        <a href="clients.php">View all clients</a>
         <a href="#">Reports</a>
         <!-- Add more links as needed -->
 
