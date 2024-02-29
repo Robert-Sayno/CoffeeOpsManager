@@ -1,11 +1,5 @@
 <?php
-session_start();
-
-// Check if the user is not logged in, redirect to login page
-if (!isset($_SESSION['name'])) {
-    header('location: auth/login.php');
-    exit();
-}
+// delete_client_confirm.php
 
 $servername = "localhost";
 $username = "root";
@@ -18,22 +12,36 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if the client ID is provided in the URL
-if (isset($_GET['id'])) {
-    $clientId = mysqli_real_escape_string($conn, $_GET['id']);
+// Get the client ID from the URL or request body
+$client_id = isset($_GET['id']) ? $_GET['id'] : file_get_contents('php://input');
+$client_id = mysqli_real_escape_string($conn, $client_id);
 
-    // Display a confirmation alert
-    echo "<script>
-            if (confirm('Are you sure you want to delete this client?')) {
-                // If confirmed, proceed with deletion
-                window.location.href = 'delete_client_confirm.php?id=$clientId';
-            } else {
-                // If not confirmed, redirect back to the clients page
+// Delete related records in client_details
+$deleteDetailsSql = "DELETE FROM client_details WHERE client_id = '$client_id'";
+
+if ($conn->query($deleteDetailsSql) === TRUE) {
+    // Delete the client in coffee_data
+    $deleteSql = "DELETE FROM coffee_data WHERE id = '$client_id'";
+
+    if ($conn->query($deleteSql) === TRUE) {
+        // JavaScript alert and redirect on successful deletion
+        echo "<script>
+                alert('Client deleted successfully');
                 window.location.href = 'clients.php';
-            }
-          </script>";
+              </script>";
+    } else {
+        // JavaScript alert and redirect on deletion failure
+        echo "<script>
+                alert('Error deleting client: " . $conn->error . "');
+                window.location.href = 'clients.php';
+              </script>";
+    }
 } else {
-    echo "Client ID not provided";
+    // JavaScript alert and redirect on deletion of client_details failure
+    echo "<script>
+            alert('Error deleting client details: " . $conn->error . "');
+            window.location.href = 'clients.php';
+          </script>";
 }
 
 $conn->close();

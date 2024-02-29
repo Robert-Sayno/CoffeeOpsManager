@@ -43,14 +43,21 @@ if (isset($_GET['id'])) {
                           email = '$updatedEmail' 
                           WHERE id = $clientId";
 
-            if ($conn->query($updateSql) === TRUE) {
-                echo "Client details updated successfully";
-                // Redirect to clients page after successful update
-                header('location: clients.php');
-                exit();
-            } else {
-                echo "Error updating client details: " . $conn->error;
-            }
+if ($conn->query($updateSql) === TRUE) {
+    // JavaScript alert and redirect on successful update
+    echo "<script>
+            alert('Client details updated successfully');
+            window.location.href = 'clients.php';
+          </script>";
+    exit();
+} else {
+    // JavaScript alert and redirect on update failure
+    echo "<script>
+            alert('Error updating client details: " . $conn->error . "');
+            window.location.href = 'clients.php';
+          </script>";
+}
+
         }
     } else {
         echo "Client not found";

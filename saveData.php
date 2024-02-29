@@ -38,7 +38,6 @@ if ($email && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo "Error: Invalid email format";
     exit();
 }
-
 // Process the uploaded customer photo
 $customerPhoto = null;
 if (isset($_FILES['customerPhoto']) && $_FILES['customerPhoto']['error'] == UPLOAD_ERR_OK) {
@@ -50,8 +49,10 @@ if (isset($_FILES['customerPhoto']) && $_FILES['customerPhoto']['error'] == UPLO
 $sql = "INSERT INTO coffee_data (customer_name, phone_number, email, address, customer_photo) VALUES ('$customerName', '$phoneNumber', '$email', '$address', '$customerPhoto')";
 if ($conn->query($sql) === TRUE) {
     // Data saved successfully
-    echo "Client added succesfully";
-    header('Location: clients.php'); // Redirect to a success page
+    echo "<script>
+            alert('Client added successfully');
+            window.location.href = 'clients.php';
+          </script>";
     exit(); // Make sure to exit after header redirect
 
 } else {
@@ -59,6 +60,7 @@ if ($conn->query($sql) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
     echo '<script>alert("Error saving data. Please try again.");</script>';
 }
+
 
 
 $conn->close();
